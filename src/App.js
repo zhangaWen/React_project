@@ -1,10 +1,18 @@
 import React,{Component} from 'react'
-import { directive } from '@babel/types';
+import {BrowserRouter,Switch,Route} from 'react-router-dom'
+// import { Button } from 'antd';
 
+import Admin from './pages/admin/admin'
+import Login from './pages/login/login'
 export default class App extends Component{
     render(){
         return(
-            <div>项目开始</div>
+            <BrowserRouter>
+                <Switch>
+                    <Route path='/login' component={Login}/>  
+                    <Route path='/' component={Admin}/> 
+                </Switch>
+            </BrowserRouter>
         )
     }
 }
