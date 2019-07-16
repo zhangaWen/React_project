@@ -7,7 +7,7 @@ axios.interceptors.request.use(function(config){
     //得到请求方式和请求体数据
     const {method,data} = config
     //处理post请求，将data对象转化为query参数格式字符串
-    if(method.toLowerCase === 'post' && typeof data === 'object'){
+    if(method.toLowerCase() === 'post' && typeof data === 'object'){
         config.data = qs.stringify(data)
     }
     return config
@@ -22,7 +22,7 @@ axios.interceptors.request.use(function(config){
 axios.interceptors.response.use(function(response){
     return response.data
 },function(error){
-    message.error('请求出错',+error.message)
+    message.error('请求出错' + error.message)
     //return Promise.reject(error)
     //返回一个pending状态的promise，中断promise链
     return new Promise(()=>{})

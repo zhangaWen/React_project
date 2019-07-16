@@ -19,6 +19,7 @@ class Login extends Component{
         // message.success('发送Ajax请求')
 
         this.props.form.validateFields(async (err,{username,password})=>{
+            // console.log(username,password)
             if(!err){
                 const result = await reqLogin(username,password)
 
@@ -31,7 +32,7 @@ class Login extends Component{
                     this.props.history.replace('/')
                     message.success('登录成功')
                 }else{
-                    message.error('登录失败')
+                    message.error(result.msg)
                 }
             }
             else {
