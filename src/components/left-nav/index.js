@@ -1,15 +1,89 @@
 import React,{Component} from 'react'
-
-import {Link} from 'react-router-dom'
-
+import {Link,withRouter} from 'react-router-dom'
 import {Menu,Icon} from 'antd'
+import menuList from '../../config/menuConfig'
 import logo from '../../assets/images/logo.png'
 import './index.less'
 
 const {SubMenu} = Menu
 
-export default class LeftNav extends Component{
+
+ class LeftNav extends Component{
+    getMenuNodes2 = (menuList)=>{
+        const path = this.props.location.pathname
+        return menuList.reduce((pre,item)=>{
+            if(!item.children){
+                pre.push((
+                    <Menu.Item key={item.key}>
+                        <Link to={item.key}>
+                            <Icon type={item.icon}/>
+                            <span>{item.title}</span>
+                        </Link>
+                    </Menu.Item>
+                ))
+            }else{
+                const cItem = item.children.find(cItem =>path.indexOf(cItem.key)===0)
+                if(cItem){
+                    this.openKey = item.key
+                }
+                pre.push((
+                    <SubMenu
+                        key = {item.key}
+                        title = {
+                            <span>
+                                <Icon type={item.icon}/>
+                                <span>{item.title}</span>
+                            </span>
+                        }
+                    >
+                        {this.getMenuNodes2(item.children)}
+                    </SubMenu>
+                ))
+            }
+            return pre
+        },[])
+    }
+
+    getMenuNodes = (menuList)=>{
+        //得到请求的path
+        const path = this.props.location.pathname
+
+        return menuList.map(item=>{
+            if(!item.children){
+                return(
+                    <Menu.Item key={item.key}>
+                        <Link to={item.key}>
+                        <Icon type={item.icon} />
+                        <span>{item.title}</span>
+                        </Link>
+                    </Menu.Item>
+                )
+            }else{
+                if(item.children.find(cItem => path.indexOf(cItem.key) === 0)){
+                    this.openKey = item.key
+                }
+                return(
+                    <SubMenu
+                        key={item.key}
+                        title={
+                        <span>
+                            <Icon type={item.icon} />
+                            <span>{item.title}</span>
+                        </span>
+                        }
+                    >
+                        {this.getMenuNodes(item.children)}
+                    </SubMenu>
+                )
+            }
+        })
+    }
+
+    componentWillMount () {
+        this.menuNodes = this.getMenuNodes2(menuList)
+    }
     render(){
+        const selectKey = this.props.location.pathname
         return(
             <div className="left-nav">
                 <Link className="left-nav-link" to="/home">
@@ -17,40 +91,14 @@ export default class LeftNav extends Component{
                     <h1>后台首页</h1>
                 </Link>
                 <Menu
-                    defaultSelectedKeys={['/home']}
+                    selectedKeys={[selectKey]}
                     mode = 'inline'
                     theme = 'dark'
                 >
-                    <Menu.Item key="/home">
-                        <Link to="home">
-                            <Icon type="home"/>
-                            <span>首页</span>
-                        </Link>
-                    </Menu.Item>
-                    <SubMenu
-                        key = "products"
-                        title = {
-                            <span>
-                                <Icon type='mail'/>
-                                <span>商品</span>
-                            </span>
-                        }
-                    >
-                        <Menu.Item key="/category">
-                            <Link to="category">
-                                <Icon type="folder-open"/>
-                                <span>品牌管理</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="/product">
-                            <Link to="/product">
-                                <Icon type="filter"/>
-                                <span>商品管理</span>
-                            </Link>
-                        </Menu.Item>
-                    </SubMenu>
+                    {this.menuNodes}
                 </Menu>    
             </div>
         )
     }
 }
+export default withRouter(LeftNav)

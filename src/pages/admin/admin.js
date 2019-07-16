@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
-import {Redirect,Route} from 'react-router-dom'
-import {Layout, Switch} from 'antd'
+import {Redirect,Route,Switch} from 'react-router-dom'
+import {Layout} from 'antd'
 
 import memoryUtils from '../../utils/memoryUtils'
 
@@ -23,11 +23,11 @@ export default class Admin extends Component{
             return <Redirect to='/login'/>
         }
         return(
-            <Layout style={{width:'100%'}}>
+            <Layout style={{height:'100%'}}>
                 <Sider>
                     <LeftNav/>
                 </Sider>
-                <Layout>
+                <Layout >
                     <Header/>
                     <Content style={{background:'red'}}>
                         <Switch>
@@ -42,11 +42,11 @@ export default class Admin extends Component{
                             <Redirect to="/home"/>
                         </Switch>
                     </Content>
-                    
+                    <Footer style={{ textAlign: 'center', color: 'rgba(0, 0, 0, 0.5)'}}>
+                        推荐使用谷歌浏览器，可以获得更佳页面操作体验
+                    </Footer>
                 </Layout>
-                <Footer>
-                    
-                </Footer>
+                
             </Layout>
         )
     }
