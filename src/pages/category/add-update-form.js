@@ -30,8 +30,7 @@ class AddUpdateForm extends Component{
                             rules:[
                                 {required:true,message:'分类名必须输入'}
                             ]
-                        })
-                        (<Input type="text" placeholder="请输入分类的名称"></Input>)
+                        })(<Input type="text" placeholder="请输入分类的名称"/>)   
                     }
                 </Form.Item>
             </Form>
