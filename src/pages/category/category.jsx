@@ -72,15 +72,12 @@ handleOk = () =>{
       }else{
         const categoryId = this.category._id
         result = await reqUpdateCategory({categoryId,categoryName})
-        console.log(result);
-
       }
 
       // this.form.resetFields()
       this.setState({showStatus:0})
 
       const action = showStatus === 1?'添加':'修改'
-      console.log(action);
       //根据结果不同做出不同响应
       if(result.status===0){
 
