@@ -88,7 +88,7 @@ const {SubMenu} = Menu
             <div className="left-nav">
                 <Link className="left-nav-link" to="/home">
                     <img src={logo} alt="logo"/>
-                    <h1>后台首页</h1>
+                    <h1>地下钱庄</h1>
                 </Link>
                 <Menu
                     selectedKeys={[selectKey]}

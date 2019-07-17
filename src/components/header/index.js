@@ -10,7 +10,7 @@ import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 
 import './index.less'
-import { async } from 'q';
+// import { async } from 'q';
 
 
 class Header extends Component{
