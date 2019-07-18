@@ -69,6 +69,7 @@ const Option = Select.Option
          if(result.status===0){
             //取出数据
             const {total,list} = result.data
+            // console.log(total,list)
             this.setState({
                 products:list,
                 total
@@ -116,9 +117,7 @@ const Option = Select.Option
                         showQuickJumper:true,
                         onChange:this.getProducts
                     }}
-                 />
-
-                 
+                 /> 
              </Card>
          )
 
