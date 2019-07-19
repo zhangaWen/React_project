@@ -40,3 +40,35 @@ export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/product/l
       pageSize
     }
   })
+
+
+//根据name/desc 搜索产品列表
+export const reqSearchProducts = ({
+    pageNum,
+    pageSize,
+    searchName,
+    searchType
+}) => ajax(BASE + '/manage/product/search',{
+    // method:'GET',
+    params:{
+        pageNum,
+        pageSize,
+        [searchType]:searchName
+    }
+})
+
+//对商品进行上架下架处理
+export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {
+    method: 'POST',
+    data: {
+      productId,
+      status
+    }
+  })
+//发送请求的第二种方式
+// ajax.post(BASE+'/manage/product/updateStatus',{
+//     productId,
+//     status
+// })
+
+
