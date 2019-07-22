@@ -1,9 +1,10 @@
 import React,{Component} from 'react'
 import {Card,Select,Input,Icon,Button,Table,message} from 'antd'
-
+import throttle from 'lodash.throttle'
 import {reqProducts,reqSearchProducts,reqUpdateStatus} from '../../api'
 import LinkButton from '../../components/link-button'
 import {PAGE_SIZE} from '../../utils/Constants'
+import memoryUtils from '../../utils/memoryUtils'
 // import { async } from 'q';
 const Option = Select.Option
 /**
@@ -18,7 +19,7 @@ const Option = Select.Option
          searchType:'productName',
          searchName:'' 
      }
-     updateStatus = async(productId,status)=>{
+     updateStatus = throttle(async(productId,status)=>{
         
          
         //计算更新后的值
@@ -32,7 +33,7 @@ const Option = Select.Option
             //获取当前显示页
             this.getProducts(this.pageNum)
         }
-     }
+     },2000)
      initColumns = ()=>{
          this.columns = [
              {
@@ -76,8 +77,24 @@ const Option = Select.Option
                 title: '操作',
                 render: (product) => (
                   <span>
-                    <LinkButton>详情</LinkButton>
-                    <LinkButton>修改</LinkButton>
+                    <LinkButton
+                        onClick={()=>{
+                            //在内存中保存product
+                            memoryUtils.product = product
+                            this.props.history.push('/product/detail'+product._id)
+                        }}
+                    >
+                        详情
+                    </LinkButton>
+                    <LinkButton
+                        onClick={()=>{
+                            //在内存中保存product
+                            memoryUtils.product = product
+                            this.props.history.push('/product/addupdate')
+                        }}
+                    >
+                        修改
+                    </LinkButton>
                   </span>
                 )
               }
@@ -93,7 +110,7 @@ const Option = Select.Option
          const {searchName,searchType} = this.state
          let result
          //发送请求获取数据
-         if(!searchName){
+         if(!this.isSearch){
              result = await reqProducts(pageNum,PAGE_SIZE)
          }else{
              result = await reqSearchProducts({pageNum,pageSize:PAGE_SIZE,searchName,searchType})
@@ -138,14 +155,23 @@ const Option = Select.Option
                  />
                  <Button 
                  type="primary"
-                 onClick={()=>this.getProducts(1)}
+                 onClick={()=>{
+                     this.isSearch = true
+                     this.getProducts(1)
+                 }}
                  >
                      搜索
                  </Button>
              </span>
          )
          const extra = (
-             <Button type="primary">
+             <Button type="primary"
+                onClick={()=>{
+                    //在内存中保存product
+                    memoryUtils.product = {}
+                    this.props.history.push('/product/addupdate')
+                }}
+             >
                  <Icon type="plus"/>
                  添加商品
              </Button>
