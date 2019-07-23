@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 // import {Redirect} from 'react-router-dom'
 import {Card,Icon,Form,Input,Select,Button,message} from 'antd'
 import {reqCategorys,reqAddUpdateProduct} from '../../api'
-import PicturesWall from './picture-wall'
+import PicturesWall from './pictures-wall'
 import LinkButton from '../../components/link-button';
 import memoryUtils from '../../utils/memoryUtils'
 // import { async } from 'q';
